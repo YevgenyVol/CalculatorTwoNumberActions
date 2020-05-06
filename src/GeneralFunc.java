@@ -11,10 +11,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class GeneralFunc {
-
     static String browserXml = "E:\\intellij\\CalculatorTwoNumberActions\\calculator.xml";
 
-    //read xml
+    //read from xml
     public static String readFromFile(String keyData, String path) throws Exception{
         File xmlFile = new File(path);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -47,6 +46,7 @@ public class GeneralFunc {
         return ImagesPath+".png";
     }//end of takeScreenShot
 
+    //pressing chose char from xml on calculator
     public static void charToPress(char num){
         switch (num){
             case '1' : {
@@ -93,10 +93,11 @@ public class GeneralFunc {
                 CalculatorActions.driver.findElement(By.id("com.android.calculator2:id/dec_point")).click();
                 break;
             }
-            default: break;//TODO report of failure / close app
-        }
+            default: break;
+        }//end switch
     }//end of char to press
 
+    //dismantle string
     public static void dismantleString(String numString){
         //first number press on calculator
         while (!(numString.isEmpty())) {
@@ -105,6 +106,5 @@ public class GeneralFunc {
             //remove char from number string (next char)
             numString = numString.substring(1);
         }//end while
-
-    }
-}
+    }//end dismantleString
+}//end GeneralFunc

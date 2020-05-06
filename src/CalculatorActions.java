@@ -28,23 +28,15 @@ public class CalculatorActions {
     private static ExtentTest myTests;
     //screenshot path
     static String imagePath = "E:\\intellij\\CalculatorTwoNumberActions\\screenshot";
-    static String browserXml = "";
 
 
     @BeforeClass
+    //setup
     public static void setUp() throws Exception {
-
-        //set up path of xml , config xml and report
-//        ExtentHtmlReporter html = new ExtentHtmlReporter("E:\\intellij\\CalculatorTwoNumberActions\\calculator.html");
-//        ExtentXReporter extentx = new ExtentXReporter("localhost");
-//        ExtentReports extent = new ExtentReports();
-//        extent.attachReporter(html, extentx);
-//        html.config("")
-//        html.loadConfig(new File("E:\\intellij\\CalculatorTwoNumberActions\\reportConfig.xml"));
         extent = new ExtentReports("E:\\intellij\\CalculatorTwoNumberActions\\calculator2.html");                                //report html path
         extent.loadConfig(new File("E:\\intellij\\CalculatorTwoNumberActions\\reportConfig.xml"));                            //xml config path
 
-        //capabilities
+        //android capabilities
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("platformName", "Android");
         capabilities.setCapability("deviceName", "Android Device");
@@ -54,11 +46,9 @@ public class CalculatorActions {
         capabilities.setCapability("appPackage", "com.android.calculator2");
         capabilities.setCapability("appActivity", "com.android.calculator2.Calculator");
 
-        URL url = new URL("http://0.0.0.0:4723/wd/hub/");
+        URL url = new URL("http://0.0.0.0:4723/wd/hub/");       //appium
         driver = new AndroidDriver(url, capabilities);
         driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
-        Thread.sleep(3000);
-
 
     }//end setup
 
@@ -70,16 +60,22 @@ public class CalculatorActions {
         extent.endTest(myTests);
     }//end of closeTest
 
+
     @AfterClass
+    //close app, save report
     public static void closeDriver(){
         extent.flush();
         driver.closeApp();
         driver.quit();
     }
 
+
+
     @Test
     //adds 2 numbers
     public void test01_Add() throws Exception {
+        Thread.sleep(1000);
+        //start test
         myTests = extent.startTest("Add 2 numbers");
         myTests.log(LogStatus.INFO, "Test '" + name.getMethodName() + "' started");
 
@@ -98,6 +94,7 @@ public class CalculatorActions {
         //=
         driver.findElement(By.id("com.android.calculator2:id/eq")).click();
 
+        //replacing non numerical chars
         String actualResultString = driver.findElement(By.id("com.android.calculator2:id/formula")).getText();
         actualResultString = actualResultString.replace(",","");
 
@@ -107,7 +104,7 @@ public class CalculatorActions {
 
         try {
             Assert.assertEquals(expectedResult, actualResult, 0.001);
-            myTests.log(LogStatus.PASS, name.getMethodName() + ". calculation completed, correct result");
+            myTests.log(LogStatus.PASS, name.getMethodName() + ". calculation completed, result is correct");
             myTests.log(LogStatus.PASS, "", myTests.addScreenCapture(GeneralFunc.takeScreenShot(imagePath + "\\" + System.currentTimeMillis(), driver)));
         }
         catch (AssertionError a){
@@ -116,10 +113,16 @@ public class CalculatorActions {
         }//end try-catch
     }//end test
 
+
+
     @Test
     //subs 2 numbers
     public void test02_Sub() throws Exception {
-        Thread.sleep(3000);
+        Thread.sleep(1000);
+        //start test
+        myTests = extent.startTest("subs 2 numbers");
+        myTests.log(LogStatus.INFO, "Test '" + name.getMethodName() + "' started");
+
         //first and second number as string and int
         String first = GeneralFunc.firstNumber();
         double firstNumber = Double.parseDouble(first);
@@ -149,17 +152,23 @@ public class CalculatorActions {
         double expectedResult = firstNumber - secondNumber;
         try{
             Assert.assertEquals(expectedResult,actualResultDouble,0.001);
-            System.out.println("correct " + expectedResult + " " + actualResultDouble);
+            myTests.log(LogStatus.PASS, name.getMethodName() + ". calculation completed, result is correct");
+            myTests.log(LogStatus.PASS, "", myTests.addScreenCapture(GeneralFunc.takeScreenShot(imagePath + "\\" + System.currentTimeMillis(), driver)));
         }
         catch (AssertionError A){
-            System.out.println("wrong " + expectedResult + " " + actualResultDouble);
+            myTests.log(LogStatus.FAIL, name.getMethodName() + ". calculation failed, wrong result. Expected was: " + expectedResult + " actual is: " + actualResultDouble);
+            myTests.log(LogStatus.FAIL, "", myTests.addScreenCapture(GeneralFunc.takeScreenShot(imagePath + "\\" + System.currentTimeMillis(), driver)));
         }//end try-catch
     }//end test
 
     @Test
     //multiply 2 numbers
     public void test03_Mult() throws Exception {
-        Thread.sleep(3000);
+        Thread.sleep(1000);
+        //start test
+        myTests = extent.startTest("multiplying 2 numbers");
+        myTests.log(LogStatus.INFO, "Test '" + name.getMethodName() + "' started");
+
         //first and second number as string and int
         String first = GeneralFunc.firstNumber();
         double firstNumber = Double.parseDouble(first);
@@ -184,17 +193,23 @@ public class CalculatorActions {
 
         try{
             Assert.assertEquals(expectedResult,actualResult,0.001);
-            System.out.println("correct " + expectedResult + " " + actualResult);
+            myTests.log(LogStatus.PASS, name.getMethodName() + ". calculation completed, result is correct");
+            myTests.log(LogStatus.PASS, "", myTests.addScreenCapture(GeneralFunc.takeScreenShot(imagePath + "\\" + System.currentTimeMillis(), driver)));
         }
         catch (AssertionError A){
-            System.out.println("wrong " + expectedResult + " " + actualResult);
+            myTests.log(LogStatus.FAIL, name.getMethodName() + ". calculation failed, wrong result. Expected was: " + expectedResult + " actual is: " + actualResult);
+            myTests.log(LogStatus.FAIL, "", myTests.addScreenCapture(GeneralFunc.takeScreenShot(imagePath + "\\" + System.currentTimeMillis(), driver)));
         }//end try-catch
     }//end test
 
     @Test
     //dividing 2 numbers
     public void test04_Div() throws Exception {
-        Thread.sleep(3000);
+        Thread.sleep(1000);
+        //dividing 2 numbers
+        myTests = extent.startTest("multiplying 2 numbers");
+        myTests.log(LogStatus.INFO, "Test '" + name.getMethodName() + "' started");
+
         //first and second number as string and int
         String first = GeneralFunc.firstNumber();
         double firstNumber = Double.parseDouble(first);
@@ -223,9 +238,11 @@ public class CalculatorActions {
 
             try {
                 Assert.assertEquals(expectedResult, actualResult, 0.001);
-                System.out.println("correct " + expectedResult + " " + actualResult);
+                myTests.log(LogStatus.PASS, name.getMethodName() + ". calculation completed, result is correct");
+                myTests.log(LogStatus.PASS, "", myTests.addScreenCapture(GeneralFunc.takeScreenShot(imagePath + "\\" + System.currentTimeMillis(), driver)));
             } catch (AssertionError A) {
-                System.out.println("wrong " + expectedResult + " " + actualResult);
+                myTests.log(LogStatus.FAIL, name.getMethodName() + ". calculation failed, wrong result. Expected was: " + expectedResult + " actual is: " + actualResult);
+                myTests.log(LogStatus.FAIL, "", myTests.addScreenCapture(GeneralFunc.takeScreenShot(imagePath + "\\" + System.currentTimeMillis(), driver)));
             }//end try-catch
         }//end else
     }//end test
