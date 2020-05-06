@@ -161,6 +161,7 @@ public class CalculatorActions {
         }//end try-catch
     }//end test
 
+
     @Test
     //multiply 2 numbers
     public void test03_Mult() throws Exception {
@@ -201,6 +202,7 @@ public class CalculatorActions {
             myTests.log(LogStatus.FAIL, "", myTests.addScreenCapture(GeneralFunc.takeScreenShot(imagePath + "\\" + System.currentTimeMillis(), driver)));
         }//end try-catch
     }//end test
+
 
     @Test
     //dividing 2 numbers
