@@ -49,7 +49,6 @@ public class CalculatorActions {
         URL url = new URL("http://0.0.0.0:4723/wd/hub/");       //appium
         driver = new AndroidDriver(url, capabilities);
         driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
-
     }//end setup
 
 
@@ -101,7 +100,7 @@ public class CalculatorActions {
         //Assert results
         double actualResult = Double.parseDouble(actualResultString);
         double expectedResult = firstNumber + secondNumber;
-
+        myTests.log(LogStatus.INFO, "numbers are " + firstNumber + " and " + secondNumber);
         try {
             Assert.assertEquals(expectedResult, actualResult, 0.001);
             myTests.log(LogStatus.PASS, name.getMethodName() + ". calculation completed, result is correct");
@@ -120,7 +119,7 @@ public class CalculatorActions {
     public void test02_Sub() throws Exception {
         Thread.sleep(1000);
         //start test
-        myTests = extent.startTest("subs 2 numbers");
+        myTests = extent.startTest("Subtracts 2 numbers");
         myTests.log(LogStatus.INFO, "Test '" + name.getMethodName() + "' started");
 
         //first and second number as string and int
@@ -146,7 +145,7 @@ public class CalculatorActions {
             actualResultString = actualResultString.replace("−","");
             negativeFlag = -1;
         }
-
+        myTests.log(LogStatus.INFO, "numbers are " + firstNumber + " and " + secondNumber);
         //Assert results
         double actualResultDouble = Double.parseDouble(actualResultString)*negativeFlag;
         double expectedResult = firstNumber - secondNumber;
@@ -162,12 +161,13 @@ public class CalculatorActions {
     }//end test
 
 
+
     @Test
     //multiply 2 numbers
     public void test03_Mult() throws Exception {
         Thread.sleep(1000);
         //start test
-        myTests = extent.startTest("multiplying 2 numbers");
+        myTests = extent.startTest("Multiplying 2 numbers");
         myTests.log(LogStatus.INFO, "Test '" + name.getMethodName() + "' started");
 
         //first and second number as string and int
@@ -191,7 +191,7 @@ public class CalculatorActions {
         //Assert results
         double actualResult = Double.parseDouble(actualResultString);
         double expectedResult = firstNumber * secondNumber;
-
+        myTests.log(LogStatus.INFO, "numbers are " + firstNumber + " and " + secondNumber);
         try{
             Assert.assertEquals(expectedResult,actualResult,0.001);
             myTests.log(LogStatus.PASS, name.getMethodName() + ". calculation completed, result is correct");
@@ -204,12 +204,13 @@ public class CalculatorActions {
     }//end test
 
 
+
     @Test
     //dividing 2 numbers
     public void test04_Div() throws Exception {
         Thread.sleep(1000);
         //dividing 2 numbers
-        myTests = extent.startTest("multiplying 2 numbers");
+        myTests = extent.startTest("Dividing 2 numbers");
         myTests.log(LogStatus.INFO, "Test '" + name.getMethodName() + "' started");
 
         //first and second number as string and int
@@ -217,9 +218,11 @@ public class CalculatorActions {
         double firstNumber = Double.parseDouble(first);
         String second = GeneralFunc.secondNumber();
         double secondNumber = Double.parseDouble(second);
+
+        myTests.log(LogStatus.INFO, "numbers are " + firstNumber + " and " + secondNumber);
         //checks possibility of dividing by 0
         if ((second.length()==1) && (second.charAt(0) == '0')){
-            System.out.println("div by 0 unavailable");
+            myTests.log(LogStatus.ERROR, name.getMethodName() + ". YOU CAN NOT DIVIDE BY 0!!!");
         }
         else {
             //first number dismantle
@@ -248,6 +251,7 @@ public class CalculatorActions {
             }//end try-catch
         }//end else
     }//end test
+
 
 
 }//end CalculatorActions

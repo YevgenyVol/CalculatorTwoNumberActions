@@ -101,9 +101,9 @@ public class GeneralFunc {
     public static void dismantleString(String numString){
         //first number press on calculator
         while (!(numString.isEmpty())) {
-            //press button on calculator
+            //press button on calculator position 0
             charToPress(numString.charAt(0));
-            //remove char from number string (next char)
+            //remove char from position 0 (first char)
             numString = numString.substring(1);
         }//end while
     }//end dismantleString
